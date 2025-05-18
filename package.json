@@ -1,0 +1,16 @@
+{
+  "name": "ekstraklasa-app",
+  "version": "1.0.0",
+  "description": "Ekstraklasa league table application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
+    "install-all": "npm install && npm install --prefix backend && npm install --prefix frontend"
+  },
+  "keywords": ["ekstraklasa", "football", "mern"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
