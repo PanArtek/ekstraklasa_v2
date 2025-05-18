@@ -27,6 +27,35 @@ export const fetchMatchesByRound = async (round) => {
   return response.data;
 };
 
+export const fetchMatchesByMatchday = async (matchday) => {
+  const response = await api.get(`/matches/matchday/${matchday}`);
+  return response.data;
+};
+
+export const fetchMatchesByStadiumId = async (stadiumId) => {
+  const response = await api.get(`/matches/stadium/${stadiumId}`);
+  return response.data;
+};
+
+export const fetchMatchesByStatus = async (status) => {
+  const response = await api.get(`/matches/status/${status}`);
+  return response.data;
+};
+
+export const fetchMatchesByDateRange = async (startDate, endDate) => {
+  const response = await api.get('/matches/date-range', {
+    params: { startDate, endDate }
+  });
+  return response.data;
+};
+
+export const fetchMatchesWithFilters = async (filters) => {
+  const response = await api.get('/matches/filters', {
+    params: filters
+  });
+  return response.data;
+};
+
 // Stadiums API
 export const fetchStadiums = async () => {
   const response = await api.get('/stadiums');
