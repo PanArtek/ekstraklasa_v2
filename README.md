@@ -1,121 +1,122 @@
-# Ekstraklasa League Table Application
+# Ekstraklasa v2
 
-A MERN stack application that displays the Polish Ekstraklasa football league table, matches, and stadium information.
+<div align="center">
+  <img src="https://ekstraklasa.org/img/logo.png" alt="Ekstraklasa Logo" width="400"/>
+  <br>
+  <h3>Nowoczesna aplikacja do śledzenia tabeli i terminarza Ekstraklasy</h3>
+</div>
 
-## Features
+## 📋 O projekcie
 
-- League table sorted by points, goal difference, and goals scored
-- Match list with filtering by team and round
-- Integration with MongoDB Cloud database
+Ekstraklasa v2 to aplikacja MERN stack umożliwiająca zaawansowane przeglądanie tabeli ligowej i terminarza polskiej Ekstraklasy. Aplikacja oferuje interaktywne funkcje filtrowania meczów, dynamiczną nawigację między kolejkami oraz wizualizację statystyk drużyn.
 
-## Technical Stack
+## ✨ Kluczowe funkcjonalności
 
-- **Frontend**: React, React Query, Axios
-- **Backend**: Node.js, Express.js, Mongoose
-- **Database**: MongoDB Cloud
+| Funkcjonalność | Opis |
+|----------------|------|
+| 📊 **Interaktywna tabela ligowa** | Wizualizacja pozycji z oznaczeniem stref awansu/spadku |
+| 📅 **Paginowany terminarz** | Nawigacja między kolejkami z animowanymi przejściami |
+| 🔍 **Zaawansowane filtrowanie** | Multi-kryterialne filtrowanie (drużyna, data, stadion, status) |
+| 📈 **Wizualizacja formy** | Kolorowe wskaźniki ostatnich 5 meczów (W/R/P) |
+| ⭐ **Ulubione drużyny** | Zapisywanie preferowanych drużyn z szybkim dostępem |
+| 📱 **Responsywny interfejs** | Dostosowany do urządzeń mobilnych i desktopowych |
+| ⌨️ **Dostępność** | Nawigacja klawiaturą, oznaczenia ARIA, optymalizacja dla czytników ekranu |
 
-## Project Structure
+## 🚀 Technologie
+
+<div align="center">
+  <h3>Stack MERN</h3>
+  <p>
+    <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"/>
+    <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js"/>
+    <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"/>
+  </p>
+</div>
+
+### Dodatkowe biblioteki i narzędzia
+
+- **React Query** - zarządzanie stanem i cache
+- **React Router** - routing po stronie klienta
+- **Axios** - komunikacja HTTP
+- **CSS Transitions** - animacje i micro-interakcje
+
+## 📊 Modele danych
+
+Aplikacja zarządza trzema głównymi modelami danych:
 
 ```
-ekstraklasa-app/
-├── backend/         # Express.js server
-└── frontend/        # React client
+Team {                     Match {                     Stadium {
+  name: String               matchday: Number           name: String
+  shortName: String          homeTeamId: ObjectId       city: String
+  played: Number             awayTeamId: ObjectId       capacity: Number
+  wins: Number               date: Date                 address: String
+  draws: Number              stadiumId: ObjectId      }
+  losses: Number             homeGoals: Number
+  goalsFor: Number           awayGoals: Number
+  goalsAgainst: Number       status: String
+  goalDifference: Number     season: String
+  points: Number             round: Number
+}                          }
 ```
 
-## Getting Started
+## 🖼️ Zrzuty ekranu
 
-### Prerequisites
+<div align="center">
+  <img src="https://via.placeholder.com/400x200?text=Tabela+Ligowa" alt="Tabela Ligowa"/>
+  <img src="https://via.placeholder.com/400x200?text=Terminarz+Meczów" alt="Terminarz Meczów"/>
+</div>
 
-- Node.js v18 or higher
-- npm package manager
-- MongoDB Cloud account (with existing data)
+## 🛠️ Instalacja i uruchomienie
 
-### Installation
+```bash
+# Klonowanie repozytorium
+git clone https://github.com/PanArtek/ekstraklasa_v2.git
+cd ekstraklasa_v2
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/PanArtek/ekstraklasa_v2.git
-   cd ekstraklasa_v2
-   ```
+# Instalacja zależności
+npm run install-all
 
-2. Install dependencies:
-   ```
-   npm run install-all
-   ```
-
-3. Set up environment variables:
-   - Create `.env` file in the `backend` directory with your MongoDB connection string
-   - Create `.env` file in the `frontend` directory with your API base URL
-
-4. Start the development server:
-   ```
-   npm run dev
-   ```
-
-5. Open your browser and navigate to `http://localhost:3000`
-
-## API Endpoints
-
-- `GET /api/teams` - Get all teams sorted by points
-- `GET /api/matches` - Get all matches
-- `GET /api/matches/team/:teamId` - Get matches for a specific team
-- `GET /api/matches/round/:round` - Get matches for a specific round
-- `GET /api/stadiums` - Get all stadiums
-
-## Data Models
-
-### Team
-```json
-{
-  "_id": ObjectId,
-  "name": String,
-  "shortName": String,
-  "played": Number,
-  "wins": Number,
-  "draws": Number,
-  "losses": Number,
-  "goalsFor": Number,
-  "goalsAgainst": Number,
-  "goalDifference": Number,
-  "points": Number
-}
+# Uruchomienie aplikacji (frontend + backend)
+npm run dev
 ```
 
-### Match
-```json
-{
-  "_id": ObjectId,
-  "matchday": Number,
-  "homeTeamId": ObjectId (ref: Team),
-  "awayTeamId": ObjectId (ref: Team),
-  "date": Date,
-  "stadiumId": ObjectId (ref: Stadium),
-  "homeGoals": Number,
-  "awayGoals": Number,
-  "status": String,
-  "season": String,
-  "round": Number
-}
-```
+Aplikacja będzie dostępna pod adresem: http://localhost:3000  
+API będzie działać pod adresem: http://localhost:5000/api
 
-### Stadium
-```json
-{
-  "_id": ObjectId,
-  "name": String,
-  "city": String,
-  "capacity": Number,
-  "address": String
-}
-```
+## 📖 Dokumentacja
 
-## Future Enhancements
+Projekt posiada szczegółową dokumentację w następujących plikach:
 
-- User authentication
-- Admin panel for data management
-- Historical season data comparison
-- Player statistics
+- [📚 Dokumentacja główna](documentation.md) - Architektura i organizacja projektu
+- [📊 Logika tabeli](table-logic.md) - Szczegóły obliczania statystyk i pozycji
+- [🔍 Filtrowanie i paginacja](filtering.md) - Opis mechanizmów nawigacji i filtrowania
 
-## License
+## 🔌 API Endpoints
 
-MIT
+- **Teams**: `/api/teams` - Zarządzanie danymi drużyn
+- **Matches**: `/api/matches` - Dane meczów z filtrowaniem
+- **Stadiums**: `/api/stadiums` - Informacje o stadionach
+- **League Table**: `/api/league-table` - Obliczona tabela ligowa
+
+## 🔭 Planowany rozwój
+
+- 🔐 Autentykacja i zarządzanie użytkownikami
+- 📊 Rozszerzone wizualizacje i statystyki
+- 📜 Dane historyczne i porównania sezonów
+- 📱 Aplikacja mobilna
+- ⚡ Aktualizacje w czasie rzeczywistym z WebSockets
+
+## 📝 Licencja
+
+[MIT](LICENSE)
+
+---
+
+<div align="center">
+  <p>Projekt Ekstraklasa v2 © 2025</p>
+  <p>
+    <a href="https://github.com/PanArtek/ekstraklasa_v2">GitHub</a> •
+    <a href="https://github.com/PanArtek/ekstraklasa_v2/issues">Zgłoś błąd</a>
+  </p>
+</div>
