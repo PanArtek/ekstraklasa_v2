@@ -1,8 +1,7 @@
 # Ekstraklasa v2
 
 <div align="center">
-  <img src="https://ekstraklasa.org/img/logo.png" alt="Ekstraklasa Logo" width="400"/>
-  <br>
+
   <h3>Nowoczesna aplikacja do śledzenia tabeli i terminarza Ekstraklasy</h3>
 </div>
 
