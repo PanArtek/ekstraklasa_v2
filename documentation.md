@@ -1,217 +1,198 @@
-# Dokumentacja projektu Ekstraklasa v2
+# Ekstraklasa v2 - Application Documentation
 
-## 1. Wprowadzenie i cel projektu
+## 1. Application Architecture
 
-Projekt Ekstraklasa v2 to aplikacja internetowa oparta na architekturze MERN (MongoDB, Express.js, React, Node.js), której celem jest prezentacja danych dotyczących polskiej ligi piłkarskiej Ekstraklasa. Aplikacja umożliwia przeglądanie tabeli ligowej, informacji o rozegranych meczach oraz obiektach stadionowych.
+### 1.1 Technology Stack (MERN)
+- **MongoDB**: NoSQL document database
+- **Express.js**: Node.js web application framework
+- **React**: Frontend UI library
+- **Node.js**: JavaScript runtime environment
 
-Głównym celem projektu jest dostarczenie prostego i funkcjonalnego narzędzia do śledzenia wyników i statystyk drużyn Ekstraklasy w sezonie 2024/2025, z możliwością przyszłej rozbudowy o dodatkowe funkcjonalności.
+### 1.2 Layer Architecture
+1. **Database Layer**: MongoDB collections for data persistence
+2. **Backend Layer**: Express.js REST API
+3. **Frontend Layer**: React SPA with React Router and React Query
 
-## 2. Kroki wykonane dotychczas
-
-### Utworzenie repozytorium GitHub
-
-Projekt rozpoczął się od utworzenia nowego repozytorium na platformie GitHub pod adresem:
-https://github.com/PanArtek/ekstraklasa_v2.git
-
-Repozytorium zostało skonfigurowane jako publiczne, co umożliwia łatwe udostępnianie kodu innym osobom zainteresowanym projektem.
-
-### Klonowanie repozytorium
-
-Po utworzeniu repozytorium, zostało ono sklonowane lokalnie za pomocą komendy:
-
-```bash
-git clone https://github.com/PanArtek/ekstraklasa_v2.git
+### 1.3 Data Flow
+```
+Client ↔ React Components ↔ React Query Hooks ↔ API Services ↔ Express Routes ↔ Controllers ↔ MongoDB
 ```
 
-Dzięki temu uzyskaliśmy lokalną kopię repozytorium, w której mogliśmy rozpocząć pracę nad projektem.
+### 1.4 Key Design Patterns
+- **Repository Pattern**: Data access logic encapsulated in models
+- **Service Layer**: Business logic separated from controllers
+- **Container/Presentational**: Smart containers manage state, dumb components render UI
+- **Custom Hooks**: Reusable logic with React Query for data fetching
+- **Middleware Pattern**: Request processing pipeline in Express
 
-### Utworzenie struktury folderów
+## 2. Data Models
 
-W ramach projektu utworzono strukturę folderów zgodną z typową organizacją projektu MERN:
-
-- Główny katalog projektu `ekstraklasa_v2`
-- Katalog `backend` dla serwera Express.js
-- Katalog `frontend` dla aplikacji React
-
-Wewnątrz tych głównych katalogów utworzono dalszą strukturę folderów odpowiadającą za organizację kodu:
-
-- W katalogu `backend` utworzono foldery: `models`, `controllers`, `routes`, `config` i inne
-- W katalogu `frontend` utworzono foldery: `components`, `pages`, `services`, `hooks` i inne
-
-### Dodanie początkowych plików
-
-W ramach początkowej konfiguracji projektu dodano następujące pliki:
-
-- Pliki konfiguracyjne: `package.json` (zarówno w katalogu głównym, jak i w katalogach `backend` i `frontend`)
-- Plik `README.md` z opisem projektu
-- Plik `CLAUDE.md` z wytycznymi dla narzędzia Claude Code
-- Pliki środowiskowe `.env` dla konfiguracji backendu i frontendu
-- Pliki źródłowe implementujące serwer Express.js i aplikację React
-
-## 3. Struktura projektu
-
-Aktualna struktura projektu przedstawia się następująco:
-
+### 2.1 Team Model
 ```
-ekstraklasa_v2/
-├── README.md                   # Opis projektu i instrukcje
-├── CLAUDE.md                   # Wytyczne dla narzędzia Claude Code
-├── documentation.md            # Niniejsza dokumentacja
-├── package.json                # Konfiguracja projektu głównego
-├── backend/                    # Serwer Express.js (Node.js)
-│   ├── .env                    # Zmienne środowiskowe backendu
-│   ├── package.json            # Zależności backendu
-│   └── src/
-│       ├── app.js              # Główna aplikacja Express.js
-│       ├── server.js           # Punkt wejścia serwera
-│       ├── config/
-│       │   └── db.js           # Konfiguracja połączenia z MongoDB
-│       ├── controllers/
-│       │   ├── match.controller.js    # Kontroler meczów
-│       │   ├── stadium.controller.js  # Kontroler stadionów
-│       │   └── team.controller.js     # Kontroler drużyn
-│       ├── models/
-│       │   ├── Match.js        # Model danych meczu
-│       │   ├── Stadium.js      # Model danych stadionu
-│       │   └── Team.js         # Model danych drużyny
-│       └── routes/
-│           ├── match.routes.js    # Trasy API dla meczów
-│           ├── stadium.routes.js  # Trasy API dla stadionów
-│           └── team.routes.js     # Trasy API dla drużyn
-├── frontend/                   # Aplikacja React
-│   ├── .env                    # Zmienne środowiskowe frontendu
-│   ├── package.json            # Zależności frontendu
-│   ├── public/
-│   │   └── index.html          # Główny plik HTML
-│   └── src/
-│       ├── App.js              # Główny komponent aplikacji
-│       ├── index.js            # Punkt wejścia aplikacji React
-│       ├── index.css           # Globalne style CSS
-│       ├── components/
-│       │   ├── FilterBar.js    # Komponent filtrowania meczów
-│       │   ├── MatchList.js    # Komponent listy meczów
-│       │   └── TeamTable.js    # Komponent tabeli drużyn
-│       ├── hooks/
-│       │   ├── useMatches.js   # Hook do pobierania danych o meczach
-│       │   ├── useStadiums.js  # Hook do pobierania danych o stadionach
-│       │   └── useTeams.js     # Hook do pobierania danych o drużynach
-│       ├── pages/
-│       │   ├── LeagueTablePage.js  # Strona z tabelą ligową
-│       │   └── MatchesPage.js      # Strona z listą meczów
-│       └── services/
-│           └── api.js          # Serwisy API do komunikacji z backendem
+Team {
+  name: String           // Full team name
+  shortName: String      // Abbreviated name
+  played: Number         // Matches played
+  wins: Number           // Wins count
+  draws: Number          // Draws count
+  losses: Number         // Losses count
+  goalsFor: Number       // Goals scored
+  goalsAgainst: Number   // Goals conceded
+  goalDifference: Number // Goal difference
+  points: Number         // Points accumulated
+}
 ```
 
-## 4. Konfiguracja Git i GitHub
-
-Projekt został skonfigurowany z następującym ustawieniem Git:
-
-- Repozytorium zdalne: `https://github.com/PanArtek/ekstraklasa_v2.git`
-- Główna gałąź: `main`
-- Użyte komendy Git:
-  - `git init` - inicjalizacja repozytorium
-  - `git add .` - dodanie plików do indeksu
-  - `git commit -m "wiadomość"` - zatwierdzenie zmian
-  - `git remote add origin URL` - dodanie zdalnego repozytorium
-  - `git push -u origin main` - wysłanie zmian do zdalnego repozytorium
-
-Wszystkie zmiany są regularne commitowane do repozytorium GitHub, co zapewnia bezpieczeństwo kodu oraz umożliwia śledzenie historii zmian.
-
-## 5. Dostępne funkcjonalności
-
-### Tabela ligowa Ekstraklasy
-
-Aplikacja umożliwia przeglądanie aktualnej tabeli ligowej Ekstraklasy, prezentując następujące dane:
-
-- Pozycja drużyny w tabeli
-- Nazwa drużyny
-- Liczba rozegranych meczów
-- Liczba zwycięstw
-- Liczba remisów 
-- Liczba porażek
-- Liczba zdobytych goli
-- Liczba straconych goli
-- Różnica goli
-- Liczba punktów
-
-Tabela jest automatycznie sortowana według:
-1. Liczby punktów (malejąco)
-2. Różnicy goli (malejąco)
-3. Liczby zdobytych goli (malejąco)
-
-Dane drużyn są pobierane z kolekcji `teams` w bazie danych MongoDB Cloud.
-
-### Lista meczów
-
-Aplikacja umożliwia przeglądanie listy meczów Ekstraklasy z następującymi informacjami:
-
-- Kolejka meczu
-- Runda
-- Data i godzina rozegrania
-- Drużyna gospodarzy
-- Drużyna gości
-- Wynik (liczba goli gospodarzy i gości)
-- Stadion, na którym odbył się mecz
-- Status meczu (zaplanowany, rozegrany, odwołany)
-
-Funkcjonalność filtrowania meczów:
-- Filtrowanie według drużyny - pokazuje wszystkie mecze wybranej drużyny (zarówno jako gospodarz, jak i gość)
-- Filtrowanie według rundy - pokazuje wszystkie mecze z wybranej rundy
-
-Dane meczów są pobierane z kolekcji `matches` w bazie danych MongoDB Cloud, z referencjami do kolekcji `teams` (dla drużyn) i `stadiums` (dla stadionów).
-
-### Informacje o stadionach
-
-Dane stadionów są wykorzystywane przy wyświetlaniu informacji o meczach i zawierają:
-
-- Nazwę stadionu
-- Miasto
-- Pojemność
-- Adres
-
-Dane stadionów są pobierane z kolekcji `stadiums` w bazie danych MongoDB Cloud.
-
-### Nawigacja w aplikacji
-
-Aplikacja posiada prosty interfejs nawigacyjny umożliwiający przełączanie się między:
-- Tabelą ligową (strona główna)
-- Listą meczów (zakładka "Matches")
-
-### Źródło danych
-
-Wszystkie dane są przechowywane w bazie danych MongoDB Cloud w następujących kolekcjach:
-- `ekstraklasa-app.teams` - dane drużyn
-- `ekstraklasa-app.matches` - dane meczów
-- `ekstraklasa-app.stadiums` - dane stadionów
-
-Aplikacja korzysta z tych danych w trybie tylko do odczytu, nie wprowadzając żadnych modyfikacji.
-
-## 6. Instrukcja uruchomienia projektu
-
-Aby uruchomić projekt lokalnie, należy wykonać następujące kroki:
-
-1. Sklonować repozytorium:
-```bash
-git clone https://github.com/PanArtek/ekstraklasa_v2.git
-cd ekstraklasa_v2
+### 2.2 Match Model
+```
+Match {
+  matchday: Number       // Matchday number
+  homeTeamId: ObjectId   // Reference to Team
+  awayTeamId: ObjectId   // Reference to Team
+  date: Date             // Match date and time
+  stadiumId: ObjectId    // Reference to Stadium
+  homeGoals: Number      // Goals scored by home team
+  awayGoals: Number      // Goals scored by away team
+  status: String         // 'zaplanowany'|'rozegrany'|'odwołany'
+  season: String         // Season identifier (e.g., '2024/2025')
+  round: Number          // Tournament round
+}
 ```
 
-2. Zainstalować zależności:
-```bash
-npm run install-all
+### 2.3 Stadium Model
 ```
-lub zainstalować zależności osobno dla każdej części projektu:
-```bash
-npm install
-cd backend && npm install
-cd ../frontend && npm install
-cd ..
+Stadium {
+  name: String           // Stadium name
+  city: String           // City location
+  capacity: Number       // Spectator capacity
+  address: String        // Physical address
+}
 ```
 
-3. Uruchomić aplikację w trybie deweloperskim:
-```bash
-npm run dev
+### 2.4 Data Relationships
+- **Team ↔ Match**: One-to-many (team plays multiple matches as home/away)
+- **Stadium ↔ Match**: One-to-many (stadium hosts multiple matches)
+- **Team ↔ Team**: Many-to-many through matches (teams play against each other)
+
+## 3. Key Functionalities
+
+### 3.1 League Table
+- Displays team standings with calculated statistics. [Details in table-logic.md](table-logic.md)
+- Includes zone classification (promotion/relegation) and form indicators.
+
+### 3.2 Match Schedule
+- Lists matches with comprehensive filtering and pagination. [Details in filtering.md](filtering.md)
+- Supports navigation between matchdays with animated transitions.
+
+### 3.3 Advanced Filtering
+- Multi-criteria filtering (team, matchday, round, stadium, status, date range).
+- Supports favorite team saving and keyboard shortcuts.
+
+### 3.4 Form Visualization
+- Displays last 5 match results with color-coded indicators (W/D/L).
+- Provides at-a-glance performance assessment for each team.
+
+### 3.5 Statistics Management
+- Calculates team statistics based on match results.
+- Supports manual recalculation with API-triggered updates.
+
+### 3.6 Responsive UI
+- Adapts layout for desktop, tablet, and mobile devices.
+- Provides optimized interactions for different screen sizes.
+
+## 4. Code Organization
+
+### 4.1 Directory Structure
+```
+/backend
+  /src
+    /config      - Database connection, environment variables
+    /controllers - Request handlers for each resource
+    /models      - Mongoose schemas and models
+    /routes      - API route definitions
+    /services    - Business logic layer
+    app.js       - Express application setup
+    server.js    - Application entry point
+
+/frontend
+  /src
+    /components  - Reusable UI components
+    /hooks       - Custom React hooks for data fetching
+    /pages       - Page-level components (routing destinations)
+    /services    - API communication layer
+    /styles      - CSS stylesheets
+    App.js       - Application routing setup
+    index.js     - React entry point
 ```
 
-Aplikacja będzie dostępna pod adresem: http://localhost:3000
-API będzie dostępne pod adresem: http://localhost:5000/api
+### 4.2 State Management
+- **React Query**: Data fetching, caching, and synchronization
+- **React Hooks**: Local component state with useState
+- **localStorage**: Persistence for user preferences (favorite team, current matchday)
+
+### 4.3 API Organization
+- **RESTful Endpoints**: Resource-based API design
+- **Controller Layer**: Request validation and response formatting
+- **Service Layer**: Core business logic implementation
+
+## 5. Backend Architecture
+
+### 5.1 API Endpoints
+- **Teams**: `/api/teams` - Team data management
+- **Matches**: `/api/matches` - Match data with filtering
+- **Stadiums**: `/api/stadiums` - Stadium information
+- **League Table**: `/api/league-table` - Calculated standings
+
+### 5.2 Request Processing Pipeline
+1. **Routing**: Match URL to appropriate controller
+2. **Middleware**: Process request (CORS, body parsing)
+3. **Controller**: Handle request and invoke service methods
+4. **Service**: Execute business logic and database operations
+5. **Response**: Format and return data to client
+
+### 5.3 Database Interaction
+- **Mongoose ODM**: Object-document mapping
+- **Aggregation Pipeline**: For complex data operations
+- **Indexes**: On frequently queried fields
+
+## 6. Frontend Architecture
+
+### 6.1 Component Hierarchy
+- **App**: Main routing container
+- **Pages**: Route-level components (TablePage, EnhancedMatchesPage)
+- **Components**: Reusable UI elements (TeamTable, EnhancedFilterBar, EnhancedMatchList)
+
+### 6.2 Data Fetching Strategy
+- **React Query**: Declarative data fetching and caching
+- **Custom Hooks**: Encapsulation of query logic by resource
+- **Axios**: HTTP client for API communication
+
+### 6.3 User Interface
+- **Responsive Design**: Mobile-first approach with responsive breakpoints
+- **Accessibility**: ARIA attributes, keyboard navigation, focus management
+- **Animations**: CSS transitions, micro-interactions, skeleton loading
+
+## 7. Development and Deployment
+
+### 7.1 Development Environment
+- **Concurrent Servers**: Backend (5000) and Frontend (3000)
+- **Hot Reloading**: For both client and server code
+- **Environment Variables**: .env files for configuration
+
+### 7.2 Build Process
+- **Backend**: Node.js application
+- **Frontend**: React build with optimization
+- **Package Scripts**: Defined in package.json
+
+### 7.3 Deployment Options
+- **Monorepo**: Single repository for full-stack application
+- **Separate Deployment**: Backend API and Frontend SPA
+- **Database**: MongoDB Atlas cloud service
+
+## 8. Future Enhancements
+
+- Authentication and user management
+- Enhanced visualizations and statistics
+- Historical data and season comparisons
+- Mobile application support
+- Real-time updates with WebSockets

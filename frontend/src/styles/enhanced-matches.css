@@ -1,0 +1,697 @@
+/* Enhanced matches page styles */
+
+/* Common styles for transitions and animations */
+:root {
+  --primary-color: #2196f3;
+  --primary-dark: #1976d2;
+  --primary-light: #bbdefb;
+  --secondary-color: #f44336;
+  --secondary-dark: #d32f2f;
+  --secondary-light: #ffcdd2;
+  --success-color: #4caf50;
+  --success-light: #e8f5e9;
+  --warning-color: #ff9800;
+  --warning-light: #fff3e0;
+  --neutral-color: #9e9e9e;
+  --neutral-light: #f5f5f5;
+  --border-color: #e0e0e0;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --transition-fast: 0.2s;
+  --transition-medium: 0.3s;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+/* Enhanced Matches Page */
+.enhanced-matches-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: var(--spacing-lg);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.favorite-team-hint {
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.keyboard-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  background-color: var(--neutral-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 2px 0 var(--border-color);
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0 4px;
+  padding: 0 4px;
+}
+
+/* Enhanced Filter Bar */
+.enhanced-filter-container {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mobile-filter-header {
+  display: none;
+  margin-bottom: var(--spacing-md);
+}
+
+.enhanced-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-groups-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.date-range-row {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+}
+
+.filter-group-container {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.filter-controls {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* Date range styling */
+.date-range-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.filter-controls.date-range {
+  display: flex;
+}
+
+.date-pickers-wrapper {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.date-picker-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: var(--spacing-sm);
+  background-color: var(--neutral-light);
+  border-radius: var(--border-radius-sm);
+  padding: 6px 12px;
+  transition: all var(--transition-fast);
+}
+
+.date-picker-container:hover {
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.date-picker-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.date-picker-input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 14px;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+  flex: 1;
+}
+
+.filter-group {
+  flex: 1;
+  position: relative;
+}
+
+/* Filter chips styling */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  border-radius: 100px;
+  font-size: 13px;
+  transition: all var(--transition-fast);
+}
+
+.filter-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  color: var(--primary-dark);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 2px;
+  transition: all var(--transition-fast);
+}
+
+.filter-chip-remove:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.filter-chip-clear {
+  background-color: var(--secondary-light);
+  color: var(--secondary-dark);
+  cursor: pointer;
+  border: none;
+  padding: 4px 10px;
+}
+
+.filter-chip-clear:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+/* Favorite team button */
+.favorite-team-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--neutral-color);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 2;
+  transition: all var(--transition-fast);
+}
+
+.favorite-team-button:hover {
+  transform: translateY(-50%) scale(1.2);
+}
+
+.favorite-team-button.is-favorite {
+  color: gold;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.quick-favorite-button {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-favorite-button:hover {
+  background-color: var(--neutral-light);
+}
+
+/* Toggle button for mobile */
+.filter-toggle-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-toggle-button.active {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.filter-icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.filter-icon:before,
+.filter-icon:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 16px;
+  height: 2px;
+  background-color: currentColor;
+  transition: transform var(--transition-fast);
+}
+
+.filter-icon:before {
+  top: 4px;
+}
+
+.filter-icon:after {
+  bottom: 4px;
+}
+
+.filter-toggle-button.active .filter-icon:before {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+
+.filter-toggle-button.active .filter-icon:after {
+  transform: rotate(-45deg) translate(2px, -2px);
+}
+
+.filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* Enhanced Match List */
+.enhanced-match-list {
+  position: relative;
+  margin-top: var(--spacing-lg);
+}
+
+/* Matchday selector */
+.matchday-selector-container {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+  padding: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-md);
+}
+
+.matchday-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.matchday-selector {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  padding: var(--spacing-sm) 0;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.matchday-selector::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.matchday-button {
+  flex: 0 0 auto;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--neutral-light);
+  margin: 0 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.matchday-button.active {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.matchday-button:hover:not(.active) {
+  background-color: var(--primary-light);
+}
+
+.matchday-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--neutral-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.matchday-nav:hover:not(:disabled) {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.matchday-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Match list content with animations */
+.match-list-content {
+  position: relative;
+  transition: transform var(--transition-medium), opacity var(--transition-medium);
+}
+
+.match-list-content.slide-left {
+  transform: translateX(-10px);
+  opacity: 0;
+}
+
+.match-list-content.slide-right {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.current-matchday-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.current-matchday-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.match-count {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* Match list table styles */
+.match-list-container {
+  margin-bottom: var(--spacing-lg);
+  overflow-x: auto;
+}
+
+.match-list {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.match-list th {
+  background-color: var(--neutral-light);
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.match-list td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.team-name {
+  font-weight: 500;
+}
+
+.match-score {
+  text-align: center;
+}
+
+.score-value {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: var(--neutral-light);
+  border-radius: var(--border-radius-sm);
+  font-weight: bold;
+}
+
+.match-status {
+  text-transform: capitalize;
+}
+
+.status-rozegrany .score-value {
+  background-color: var(--success-light);
+  color: var(--success-color);
+}
+
+.status-zaplanowany {
+  color: var(--primary-dark);
+}
+
+.status-odwołany {
+  color: var(--secondary-dark);
+}
+
+/* Skeleton loading animation */
+.skeleton-row td {
+  padding: 16px;
+}
+
+.skeleton-loader {
+  height: 16px;
+  width: 100%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  border-radius: var(--border-radius-sm);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Compact pagination at bottom */
+.compact-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.compact-nav {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--neutral-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.compact-nav:hover:not(:disabled) {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.compact-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.compact-indicator {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Keyboard navigation hint */
+.keyboard-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.no-matches-message {
+  text-align: center;
+  padding: var(--spacing-lg);
+  color: var(--text-secondary);
+}
+
+.no-data-message {
+  background-color: var(--warning-light);
+  color: var(--warning-color);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  margin-top: var(--spacing-md);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .mobile-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .enhanced-filter-bar {
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .enhanced-filter-bar.visible {
+    display: flex;
+  }
+  
+  .filter-controls {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  /* Filter rows adaptation for mobile */
+  .filter-groups-row {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .date-range-row {
+    margin-top: 0;
+    padding-top: 12px;
+  }
+  
+  .date-pickers-wrapper {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .date-picker-container {
+    width: 100%;
+  }
+  
+  .current-matchday-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .match-list th:nth-child(5),
+  .match-list td:nth-child(5) {
+    display: none; /* Hide stadium column on mobile */
+  }
+  
+  .keyboard-hint {
+    display: none; /* Hide keyboard hint on mobile */
+  }
+}
+
+/* Animations for micro-interactions */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.matchday-button.active {
+  animation: pulse 0.5s ease-in-out;
+}
+
+/* High-contrast focus styles for accessibility */
+button:focus-visible,
+select:focus-visible,
+.react-datepicker-wrapper input:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Styles for active filters */
+.filter-summary {
+  margin-bottom: var(--spacing-md);
+}

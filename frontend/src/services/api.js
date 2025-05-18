@@ -62,4 +62,25 @@ export const fetchStadiums = async () => {
   return response.data;
 };
 
+// League Table API
+export const fetchLeagueTable = async (params) => {
+  const response = await api.get('/league-table', { params });
+  return response.data;
+};
+
+export const updateLeagueTable = async (season) => {
+  const response = await api.get('/league-table', { 
+    params: { 
+      season,
+      forceUpdate: true
+    }
+  });
+  return response.data;
+};
+
+export const resetTeamStats = async () => {
+  const response = await api.post('/league-table/reset');
+  return response.data;
+};
+
 export default api;

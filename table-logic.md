@@ -1,122 +1,98 @@
-# Dokumentacja Logiki Tabeli Ligowej
+# League Table Logic
 
-## 1. Algorytmy Obliczeniowe
+## 1. Point Calculation System
 
-### 1.1 System punktacji
-- **Punktacja**: 3 punkty za zwycięstwo, 1 punkt za remis, 0 punktów za porażkę
-- **Statystyki meczowe**: Każdy rozegrany mecz aktualizuje liczniki meczów, zwycięstw, remisów, porażek
-- **Statystyki bramkowe**: Aktualizacja goli zdobytych, straconych i różnicy bramek
-- **Forma**: Zapis wyników ostatnich 5 meczów w kolejności chronologicznej
+### Basic Scoring Rules
+- Win: 3 points
+- Draw: 1 point
+- Loss: 0 points
 
-### 1.2 Sortowanie tabeli
-Sortowanie odbywa się według ściśle określonej hierarchii kryteriów:
-1. Punkty (malejąco)
-2. Różnica bramek (malejąco)
-3. Bramki zdobyte (malejąco)
-4. Nazwa drużyny (alfabetycznie)
+### Team Statistics
+- Matches played (played)
+- Wins, draws, losses counters
+- Goals scored (goalsFor)
+- Goals conceded (goalsAgainst)
+- Goal difference (goalDifference = goalsFor - goalsAgainst)
+- Points (accumulated based on results)
 
-### 1.3 Strefy ligowe
-- **Strefa TOP (awans)**: 3 pierwsze miejsca w tabeli
-- **Strefa MID (środek)**: Pozycje pomiędzy strefami awansu i spadku
-- **Strefa BOTTOM (spadek)**: 3 ostatnie miejsca w tabeli
+## 2. Table Sorting Hierarchy
 
-### 1.4 Statystyki bezpośrednie
-- Śledzenie historii meczów bezpośrednich między każdą parą drużyn
-- Dla każdej drużyny przechowywana jest mapa `headToHead` zawierająca statystyki:
-  - Liczba meczów bezpośrednich
-  - Liczba zwycięstw
-  - Liczba remisów
-  - Liczba porażek
+Teams are sorted by:
+1. Points (highest to lowest)
+2. Goal difference (highest to lowest)
+3. Goals scored (highest to lowest)
+4. Team name (alphabetically)
 
-## 2. Architektura Systemu
+## 3. Zone Classification
 
-### 2.1 Warstwa usługowa (Backend)
+- Top Zone: First 3 positions (promotion/championship zone)
+- Mid Zone: Middle positions
+- Bottom Zone: Last 3 positions (relegation zone)
 
-#### leagueTable.service.js
-- `generateLeagueTable(season)`: Oblicza tabelę na podstawie meczów z danego sezonu
-- `updateTeamStats(season)`: Aktualizuje statystyki w bazie danych
-- `resetTeamStats()`: Zeruje wszystkie statystyki drużyn
-- `getTeamZone(position, totalTeams)`: Określa strefę drużyny na podstawie pozycji
+## 4. Form Tracking
 
-#### leagueTable.controller.js
-- `getLeagueTable`: Obsługuje zapytania GET do `/api/league-table`
-- `resetTeamStats`: Obsługuje zapytania POST do `/api/league-table/reset`
+- Shows results of the last 5 matches for each team
+- Results stored chronologically (newest first)
+- Each result represented as:
+  - W: Win
+  - D: Draw
+  - L: Loss
+- Visual representation using color-coding
 
-### 2.2 Endpointy API
-- `GET /api/league-table`: Pobiera aktualną tabelę ligową
-  - Parametr `season`: Filtruje mecze według sezonu (np. '2024/2025')
-  - Parametr `forceUpdate`: Gdy `true`, aktualizuje statystyki w bazie danych
-- `POST /api/league-table/reset`: Resetuje statystyki wszystkich drużyn
+## 5. Head-to-Head Statistics
 
-### 2.3 Komponenty React (Frontend)
+For each team, the system maintains:
+- Complete record against every other team
+- Counters for: matches played, wins, draws, losses
+- Updated after each match between teams
 
-#### EnhancedTeamTable.js
-- Wyświetla tabelę z pełnymi statystykami drużyn
-- Renderuje kolumny: pozycja, drużyna, statystyki meczowe i bramkowe, punkty, forma
-- Kolorystyczne oznaczenie stref awansu/spadku
-- Wizualizacja formy z ostatnich 5 meczów
+## 6. Architectural Components
 
-#### EnhancedLeagueTablePage.js
-- Zarządza zapytaniami do API i stanem tabeli
-- Obsługuje wybór sezonu i kontrolki do aktualizacji statystyk
-- Wyświetla komunikaty o błędach i sukcesie operacji
+### Backend Services
+- `generateLeagueTable(season)`: Calculates standings based on match results
+- `getTeamZone(position, totalTeams)`: Assigns zone classification
+- `updateTeamStats(season)`: Updates database with calculated statistics
+- `resetTeamStats()`: Resets all team statistics to zero
 
-### 2.4 Hooki React Query
+### API Endpoints
+- `GET /api/league-table`: Retrieves current standings
+  - Query params: `season`, `forceUpdate`
+- `POST /api/league-table/reset`: Resets all statistics
 
-#### useLeagueTable.js
-- `useLeagueTable(options)`: Pobiera dane tabeli z API
-- `useUpdateLeagueTable()`: Wywołuje aktualizację danych w bazie
-- `useResetTeamStats()`: Resetuje statystyki wszystkich drużyn
+### Data Models
+- Team: Stores team data and current statistics
+- Match: Contains match results with home/away goals
 
-## 3. Przepływ Danych
+### Frontend Components
+- TeamTable: Renders the league standings
+- LeagueTablePage: Container for table display and controls
 
-### 3.1 Inicjalizacja tabeli
-1. Pobranie wszystkich drużyn z bazy danych
-2. Inicjalizacja statystyk dla każdej drużyny
-3. Pobranie wszystkich rozegranych meczów z danego sezonu
-4. Obliczenie statystyk na podstawie wyników meczów
-5. Sortowanie tabeli według zdefiniowanych kryteriów
-6. Oznaczenie stref (awans/spadek) dla każdej drużyny
+## 7. Data Flow Process
 
-### 3.2 Aktualizacja statystyk
-1. Resetowanie dotychczasowych statystyk drużyn
-2. Wygenerowanie nowej tabeli na podstawie aktualnych wyników
-3. Zapisanie zaktualizowanych statystyk do bazy danych
-4. Zwrócenie zaktualizowanej tabeli
+1. Data Retrieval
+   - Load all teams from the database
+   - Retrieve completed matches for specified season
 
-### 3.3 Wyświetlanie formy
-1. Przechowywanie dla każdej drużyny tablicy wyników ostatnich meczów (W, D, L)
-2. Aktualizacja tej tablicy chronologicznie, dodając nowy wynik na początku
-3. Ograniczenie liczby wyników do ostatnich 5 meczów
-4. Wizualizacja wyników w interfejsie z użyciem kolorów (zielony dla wygranej, pomarańczowy dla remisu, czerwony dla przegranej)
+2. Calculation Process
+   - Initialize statistics for each team
+   - Process each match and update team statistics
+   - Calculate goal difference
+   - Sort teams according to defined rules
+   - Assign positions and zone classifications
 
-## 4. Optymalizacje i Zabezpieczenia
+3. Display Process
+   - Render table with all statistics
+   - Apply visual styling for zones (promotion/relegation)
+   - Show form icons with appropriate colors
 
-### 4.1 Optymalizacje wydajnościowe
-- Użycie struktury Map do szybkiego dostępu do danych drużyn
-- Memoizacja wyników w komponentach React
-- Obsługa cachowania zapytań API z użyciem React Query
-- Parametr `staleTime` ustawiony na 5 minut dla ograniczenia zbędnych zapytań
+## 8. Filtering Capabilities
 
-### 4.2 Obsługa błędów
-- Walidacja istnienia drużyn przed aktualizacją statystyk
-- Pomijanie meczów z drużynami, które nie istnieją w bazie
-- Obsługa błędów w zapytaniach API i wyświetlanie komunikatów
-- Możliwość ręcznego ponowienia zapytań w przypadku błędów
+- Season filtering: Display table for specific season
+- Force update option: Recalculate and persist statistics
 
-### 4.3 Wsparcie dla różnych sezonów
-- Filtrowanie meczów według parametru sezonu
-- Możliwość wyboru sezonu w interfejsie użytkownika
-- Oddzielne klucze cache dla różnych sezonów
+## 9. Implementation Details
 
-## 5. Przypadki brzegowe
-
-### 5.1 Obsługa niekompletnych danych
-- Jeśli brak danych o meczach: wyświetlane są drużyny z zerowymi statystykami
-- Jeśli brak danych o formie: wyświetlany jest placeholder "-"
-- Jeśli brak wybranego sezonu: uwzględniane są wszystkie mecze
-
-### 5.2 Konsystencja danych
-- Przed zapisem statystyk wszystkie dane są resetowane
-- Aktualizacja statystyk zawsze obejmuje wszystkie drużyny
-- Atomowe operacje zapisu przy użyciu Promise.all dla transakcyjności
+- Teams map used for efficient statistics tracking
+- Form limited to 5 most recent matches
+- Zone determination based on position thresholds
+- Match status filtering (only 'rozegrany' matches counted)

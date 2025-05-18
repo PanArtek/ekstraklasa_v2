@@ -3,6 +3,7 @@ const cors = require('cors');
 const teamRoutes = require('./routes/team.routes');
 const matchRoutes = require('./routes/match.routes');
 const stadiumRoutes = require('./routes/stadium.routes');
+const leagueTableRoutes = require('./routes/leagueTable.routes');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use('/api/teams', teamRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/stadiums', stadiumRoutes);
+app.use('/api/league-table', leagueTableRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
