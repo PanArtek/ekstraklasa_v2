@@ -59,12 +59,6 @@ Team {                     Match {                     Stadium {
 }                          }
 ```
 
-## 🖼️ Zrzuty ekranu
-
-<div align="center">
-  <img src="https://via.placeholder.com/400x200?text=Tabela+Ligowa" alt="Tabela Ligowa"/>
-  <img src="https://via.placeholder.com/400x200?text=Terminarz+Meczów" alt="Terminarz Meczów"/>
-</div>
 
 ## 🛠️ Instalacja i uruchomienie
 
@@ -98,24 +92,9 @@ Projekt posiada szczegółową dokumentację w następujących plikach:
 - **Stadiums**: `/api/stadiums` - Informacje o stadionach
 - **League Table**: `/api/league-table` - Obliczona tabela ligowa
 
-## 🔭 Planowany rozwój
-
-- 🔐 Autentykacja i zarządzanie użytkownikami
-- 📊 Rozszerzone wizualizacje i statystyki
-- 📜 Dane historyczne i porównania sezonów
-- 📱 Aplikacja mobilna
-- ⚡ Aktualizacje w czasie rzeczywistym z WebSockets
 
 ## 📝 Licencja
 
 [MIT](LICENSE)
 
----
 
-<div align="center">
-  <p>Projekt Ekstraklasa v2 © 2025</p>
-  <p>
-    <a href="https://github.com/PanArtek/ekstraklasa_v2">GitHub</a> •
-    <a href="https://github.com/PanArtek/ekstraklasa_v2/issues">Zgłoś błąd</a>
-  </p>
-</div>
